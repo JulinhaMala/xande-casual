@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class playerManager : MonoBehaviour
 {
-    public GameController gameController;
+    public jumpCannonForce jump;
+    public GameObject paneldied;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("dano"))
         {
-            gameController.GameOver();
+            paneldied.SetActive(true);
+            jump.enabled=false;
+            Time.timeScale = 0f;
         }
  
     }

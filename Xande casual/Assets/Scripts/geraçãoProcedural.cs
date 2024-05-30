@@ -4,59 +4,71 @@ using UnityEngine;
 
 public class geraçãoProcedural : MonoBehaviour
 {
-    [SerializeField] int width, heigth;
-    [SerializeField] int minStoneheigth, maxStoneheigth;
-    [SerializeField] GameObject dirt, grass, stone;
+
+    public GameObject[] wallPrefabs; // Lista de prefabs de paredes
+    public Transform playerTransform; // Referência ao transform do jogador
+    public float wallGap = 2f; // Distância entre as paredes
+    public float wallLifetime = 10f; // Tempo de vida das paredes
+
+    private float lastWallY; // Posição y da última parede gerada
+
     void Start()
     {
-        Genaration();
+        // Inicializa a posição y da última parede gerada
+        lastWallY = playerTransform.position.y;
+
+        // Inicia a rotina para remover paredes antigas
+        StartCoroutine(RemoveOldWalls());
     }
 
-    // Update is called once per frame
-    public void Genaration()
+    void Update()
     {
-        for (int i = 0; i < width; i++)
+        // Verifica se o jogador subiu o suficiente para gerar uma nova parede
+        if (playerTransform.position.y - lastWallY > wallGap)
         {
-            int minHeigth = heigth - 1;
-            int maxHeigth = heigth + 2;
-
-            heigth = Random.Range(minHeigth, maxHeigth);
-
-            int minStoneSpawnDistance = heigth - minStoneheigth;
-
-            int maxStoneSpawnDistance = heigth - maxStoneheigth;
-
-            int totalStoneSpawnDIstance = Random.Range(minStoneSpawnDistance, maxStoneSpawnDistance);
-
-            for (int j = 0; j < heigth; j++)
-            {
-                if (j < totalStoneSpawnDIstance)
-                {
-                    spawnObj(stone, i, j);
-                }
-                else
-                {
-                    spawnObj(dirt, i, j);
-                }
-                //Instantiate(dirt, new Vector2(i, 0), Quaternion.identity);
-
-            }
-            if (totalStoneSpawnDIstance == heigth)
-            {
-                spawnObj(stone, i, heigth);
-            }
-            else
-            {
-                spawnObj(grass, i, heigth);
-            }
-            //Instantiate(grass, new Vector2(i,heigth), Quaternion.identity);
-
+            GenerateWall();
         }
     }
 
-    void spawnObj(GameObject obj, int width, int heigth)
+    void GenerateWall()
     {
-        obj = Instantiate(obj, new Vector2(width, heigth), Quaternion.identity);
-        obj.transform.parent = this.transform;
+        // Calcula a posição da nova parede
+        float newWallY = lastWallY + wallGap;
+        lastWallY = newWallY;
+
+        // Sorteia qual prefab de parede usar
+        int randomIndex = Random.Range(0, wallPrefabs.Length);
+        GameObject selectedWallPrefab = wallPrefabs[randomIndex];
+
+        // Instancia a nova parede
+        GameObject newWall = Instantiate(selectedWallPrefab, new Vector3(0f, newWallY, 0f), Quaternion.identity);
+
+        // Inicia a rotina para remover a parede após um tempo
+        StartCoroutine(RemoveWall(newWall));
+    }
+
+    IEnumerator RemoveOldWalls()
+    {
+        while (true)
+        {
+            // Procura todas as paredes na cena
+            GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
+
+            // Remove cada parede após um certo tempo
+            foreach (GameObject wall in walls)
+            {
+                Destroy(wall, wallLifetime);
+            }
+
+            // Aguarda um certo tempo antes de verificar novamente
+            yield return new WaitForSeconds(wallLifetime);
+        }
+    }
+
+    IEnumerator RemoveWall(GameObject wall)
+    {
+        // Remove a parede após um certo tempo
+        yield return new WaitForSeconds(wallLifetime);
+        Destroy(wall);
     }
 }
