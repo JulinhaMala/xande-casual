@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController instance;
     void Start()
     {
         
@@ -20,5 +21,5 @@ public class GameController : MonoBehaviour
         print("morreu");
         
     }
-    
+
 }
