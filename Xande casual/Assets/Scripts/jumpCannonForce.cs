@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//sing static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class jumpCannonForce : MonoBehaviour
 {
-
+    Vector2 difference = Vector2.zero;
     private Vector2 playerPosition;
     private Vector2 mousePosition;
     private Vector2 direction;
@@ -22,6 +23,7 @@ public class jumpCannonForce : MonoBehaviour
         {
             points[i] = Instantiate(point, pointFire.position, Quaternion.identity);
         }
+
     }
     void Update()
     {
@@ -67,5 +69,7 @@ public class jumpCannonForce : MonoBehaviour
             numberoPoints = 8;
         }
     }
+    //difference(Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) (Vector2) transform.position;
+
 
 }
