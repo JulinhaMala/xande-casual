@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - dano
+  - Boss
   layers:
   - Default
   - TransparentFX

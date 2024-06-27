@@ -1,27 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerManager : MonoBehaviour
 {
-    public jumpCannonForce jump;
-    public GameObject paneldied;
+
+    public GameObject Boss;
+    public AudioSource musicAmb;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("dano"))
         {
-            paneldied.SetActive(true);
-            jump.enabled=false;
+            SceneManager.LoadScene(1);
             Time.timeScale = 0f;
         }
+
+        if (collision.CompareTag("Boss"))
+        {
+            Boss.SetActive(true);
+            musicAmb.Stop();
+        }
  
-    }
-    void Start()
-    {
-        
-    }
-    void Update()
-    {
-        
     }
 }
