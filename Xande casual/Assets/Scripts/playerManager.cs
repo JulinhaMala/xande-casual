@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class playerManager : MonoBehaviour
 {
-
+    public Transform cam;
+    public Transform player;
     public GameObject Boss;
     public AudioSource musicAmb;
 
@@ -22,6 +23,13 @@ public class playerManager : MonoBehaviour
             Boss.SetActive(true);
             musicAmb.Stop();
         }
- 
+
+        if (collision.CompareTag("Inverter"))
+        {
+            player.transform.rotation = Quaternion.Euler(0f, 0f, -90f);
+            cam.transform.rotation = Quaternion.Euler(0f, 0f, -90f);
+        }
+
+
     }
 }
