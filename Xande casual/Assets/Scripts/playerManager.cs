@@ -9,11 +9,15 @@ public class playerManager : MonoBehaviour
     public Transform player;
     public GameObject Boss;
     public AudioSource musicAmb;
+    public AudioSource soundDeath;
+    
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("dano"))
         {
+            soundDeath.Play();
             SceneManager.LoadScene(1);
             Time.timeScale = 0f;
         }
