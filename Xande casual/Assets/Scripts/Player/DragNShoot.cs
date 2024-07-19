@@ -51,4 +51,20 @@ public class DragNShoot : MonoBehaviour
             tl.EndLine();
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Wall"))
+        {
+            rb.drag = 10f;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Wall"))
+        {
+            rb.drag = 0f;
+        }
+    }
 }

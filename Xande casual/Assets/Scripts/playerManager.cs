@@ -5,10 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class playerManager : MonoBehaviour
 {
+    [Header("Transforme da Camera")]
     public Transform cam;
+
+    [Header("Transforme do Player")]
     public Transform player;
+
+    [Header("Obj do Boss")]
     public GameObject Boss;
+
+    [Header("Audio do Ambiente")]
     public AudioSource musicAmb;
+
+    [Header("Audio de Morte")]
     public AudioSource soundDeath;
     
 
@@ -34,6 +43,6 @@ public class playerManager : MonoBehaviour
             cam.transform.rotation = Quaternion.Euler(0f, 0f, -90f);
         }
 
-
+        
     }
 }
