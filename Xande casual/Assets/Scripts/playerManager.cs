@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,8 @@ public class playerManager : MonoBehaviour
     [Header("Transforme do Player")]
     public Transform player;
 
+    public Rigidbody2D rb;
+
     [Header("Obj do Boss")]
     public GameObject Boss;
 
@@ -19,16 +22,24 @@ public class playerManager : MonoBehaviour
 
     [Header("Audio de Morte")]
     public AudioSource soundDeath;
-    
+
+    [Header("Tela de morte")]
+    public GameObject UIPainel;
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private IEnumerator OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("dano"))
         {
+            Destroy(Boss);
             soundDeath.Play();
+            UIPainel.SetActive(true);
+            GetComponent<CircleCollider2D>().enabled = false;
+            rb.simulated = false;
+            yield return new WaitForSeconds(5f);
             SceneManager.LoadScene(1);
-            Time.timeScale = 0f;
+            
         }
 
         if (collision.CompareTag("Boss"))

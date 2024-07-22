@@ -19,6 +19,8 @@ public class DragNShoot : MonoBehaviour
     Vector3 startPoint;
     Vector3 endPoint;
 
+    public AudioSource audioPull, audioShot;
+
     private void Start()
     {
         cam = Camera.main;
@@ -31,7 +33,7 @@ public class DragNShoot : MonoBehaviour
         {
             startPoint = cam.ScreenToWorldPoint(Input.mousePosition);
             startPoint.z = 15;
-
+            audioPull.Play();
         }
 
         if (Input.GetMouseButton(0))
@@ -49,6 +51,7 @@ public class DragNShoot : MonoBehaviour
             force = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, minPower.x, maxPower.x), Mathf.Clamp(startPoint.y - endPoint.y, minPower.y, maxPower.y));
             rb.AddForce(force*power, ForceMode2D.Impulse);
             tl.EndLine();
+            audioShot.Play();
         }
     }
 

@@ -6,12 +6,17 @@ public class Collectable : MonoBehaviour
 {
     public AudioSource moeda;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private IEnumerator OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            GetComponent<SpriteRenderer>().enabled = false;
+
             moeda.Play();
+            
             BestPoint.Pontuacao++;
+
+            yield return new WaitForSeconds(1f);
             Destroy(gameObject);
         }
     }
