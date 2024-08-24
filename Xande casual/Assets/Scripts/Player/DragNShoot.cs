@@ -21,6 +21,8 @@ public class DragNShoot : MonoBehaviour
 
     public AudioSource audioPull, audioShot;
 
+    public Animator anim;
+
     private void Start()
     {
         cam = Camera.main;
@@ -45,6 +47,7 @@ public class DragNShoot : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            anim.SetBool("WallFall", true);
             endPoint = cam.ScreenToWorldPoint(Input.mousePosition); 
             endPoint.z = 15;
 
@@ -59,7 +62,12 @@ public class DragNShoot : MonoBehaviour
     {
         if (collision.collider.CompareTag("Wall"))
         {
+            anim.SetBool("WallFall", true);
             rb.drag = 10f;
+        }
+        if (collision.collider.CompareTag("chao"))
+        {
+            anim.SetBool("WallFall", false);
         }
     }
 
@@ -67,7 +75,12 @@ public class DragNShoot : MonoBehaviour
     {
         if (collision.collider.CompareTag("Wall"))
         {
+            anim.SetBool("WallFall", false);
             rb.drag = 0f;
+        }
+        if (collision.collider.CompareTag("chao"))
+        {
+            anim.SetBool("WallFall", true);
         }
     }
 }

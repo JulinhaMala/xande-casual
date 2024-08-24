@@ -8,6 +8,7 @@ TagManager:
   - dano
   - Boss
   - Inverter
+  - chao
   layers:
   - Default
   - TransparentFX
