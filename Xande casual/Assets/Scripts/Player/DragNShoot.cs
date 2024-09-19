@@ -20,6 +20,7 @@ public class DragNShoot : MonoBehaviour
     Vector3 endPoint;
 
     public AudioSource audioPull, audioShot;
+    public AudioSource audioWallCollision; // New variable for wall collision sound
 
     public Animator anim;
 
@@ -48,11 +49,11 @@ public class DragNShoot : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             anim.SetBool("WallFall", true);
-            endPoint = cam.ScreenToWorldPoint(Input.mousePosition); 
+            endPoint = cam.ScreenToWorldPoint(Input.mousePosition);
             endPoint.z = 15;
 
             force = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, minPower.x, maxPower.x), Mathf.Clamp(startPoint.y - endPoint.y, minPower.y, maxPower.y));
-            rb.AddForce(force*power, ForceMode2D.Impulse);
+            rb.AddForce(force * power, ForceMode2D.Impulse);
             tl.EndLine();
             audioShot.Play();
         }
@@ -64,6 +65,12 @@ public class DragNShoot : MonoBehaviour
         {
             anim.SetBool("WallFall", true);
             rb.drag = 10f;
+
+            // Play wall collision sound
+            if (audioWallCollision != null)
+            {
+                audioWallCollision.Play();
+            }
         }
         if (collision.collider.CompareTag("chao"))
         {

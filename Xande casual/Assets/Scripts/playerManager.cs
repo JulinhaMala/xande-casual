@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class playerManager : MonoBehaviour
 {
+    public UnityEvent OnWallCollision;
     [Header("Transforme da Camera")]
     public Transform cam;
 
@@ -39,7 +41,6 @@ public class playerManager : MonoBehaviour
             rb.simulated = false;
             yield return new WaitForSeconds(5f);
             SceneManager.LoadScene(1);
-            
         }
 
         if (collision.CompareTag("Boss"))
@@ -53,7 +54,7 @@ public class playerManager : MonoBehaviour
             player.transform.rotation = Quaternion.Euler(0f, 0f, -90f);
             cam.transform.rotation = Quaternion.Euler(0f, 0f, -90f);
         }
-
+        //OnWallCollision.Invoke();
         
     }
 }
