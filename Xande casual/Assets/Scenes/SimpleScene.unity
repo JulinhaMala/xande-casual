@@ -3848,6 +3848,7 @@ MonoBehaviour:
   audioShot: {fileID: 1883169024}
   audioWallCollision: {fileID: 2025994331}
   anim: {fileID: 321680088}
+  poeiraEffectPrefab: {fileID: 4527648858910648155, guid: dc4ff2a831bb1fe44869e738def4dda9, type: 3}
 --- !u!114 &321680086
 MonoBehaviour:
   m_ObjectHideFlags: 0

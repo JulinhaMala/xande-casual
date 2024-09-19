@@ -20,9 +20,12 @@ public class DragNShoot : MonoBehaviour
     Vector3 endPoint;
 
     public AudioSource audioPull, audioShot;
-    public AudioSource audioWallCollision; // New variable for wall collision sound
+    public AudioSource audioWallCollision; // Wall collision sound
 
     public Animator anim;
+
+    public GameObject poeiraEffectPrefab; // Dust effect ("Poeira")
+    private GameObject currentPoeiraEffect;
 
     private void Start()
     {
@@ -71,6 +74,9 @@ public class DragNShoot : MonoBehaviour
             {
                 audioWallCollision.Play();
             }
+
+            // Show dust effect ("Poeira")
+            ShowPoeiraEffect(collision.contacts[0].point); // Show at contact point
         }
         if (collision.collider.CompareTag("chao"))
         {
@@ -88,6 +94,39 @@ public class DragNShoot : MonoBehaviour
         if (collision.collider.CompareTag("chao"))
         {
             anim.SetBool("WallFall", true);
+        }
+    }
+
+    private void ShowPoeiraEffect(Vector2 position)
+    {
+        // Instantiate or enable the dust effect
+        if (poeiraEffectPrefab != null)
+        {
+            if (currentPoeiraEffect == null)
+            {
+                // Create a new instance of the dust effect at the collision point
+                currentPoeiraEffect = Instantiate(poeiraEffectPrefab, position, Quaternion.identity);
+            }
+            else
+            {
+                // Reuse the existing dust effect by repositioning it
+                currentPoeiraEffect.transform.position = position;
+                currentPoeiraEffect.SetActive(true);
+            }
+
+            // Start coroutine to deactivate the dust effect after a delay
+            StartCoroutine(DeactivatePoeiraEffect());
+        }
+    }
+
+    private IEnumerator DeactivatePoeiraEffect()
+    {
+        yield return new WaitForSeconds(2f); // Wait for 2 seconds
+
+        if (currentPoeiraEffect != null)
+        {
+            // Fade out or deactivate the effect
+            currentPoeiraEffect.SetActive(false);
         }
     }
 }
